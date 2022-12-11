@@ -15,7 +15,7 @@ public class Dialog {
     }
 
     public void run() {
-        State state = main; // TODO
+        State state = main;
         while (state != null) {
             state = state.get();
         }
@@ -27,21 +27,22 @@ public class Dialog {
     );
     Menu managerMenu = new Menu(
             new MenuItem(1, "Company list", () -> printAll(this.main)),
-            new MenuItem(2, "Create a company", ()->addCompany(readln(),main)),
+            new MenuItem(2, "Create a company", () -> addCompany(readln())),
             new MenuItem(0, "Back", main)
 
     );
-    State addCompany(String name, State next){
-        try{
+
+    State addCompany(String name) {
+        try {
             new Repository(DriverManager.getConnection("jdbc:h2:./src/carsharing/db/carsharing")).setSqlAddCompany(name);
             System.out.println("Company added");
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
 
         }
-        return next;
+        return managerMenu;
     }
+
     State printAll(State next) {
         try {
             List<String> c =
